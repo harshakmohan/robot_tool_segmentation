@@ -21,7 +21,7 @@ def readKinematics(path):
     result = np.concatenate(result, axis=0).astype(np.float32)
     return result.T
 
-class SyntheticMICCAI(data.Dataset):
+class UCLSegmentation(data.Dataset):
     def __init__(self, folder_path, video_paths, series_length=2, image_transforms=None, gt_transforms=None, kinematics_transforms=None):
         self.folder_path = folder_path
         self.video_paths = [osp.join(folder_path, p) for p in video_paths]
