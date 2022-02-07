@@ -20,3 +20,4 @@ class UNet(torch.nn.Module):
         Compute the forward pass of our model, which outputs logits.
         """
         return self.model(x)
+

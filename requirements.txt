@@ -7,3 +7,5 @@ matplotlib
 Pillow
 scipy
 argparse
+albumentations
+pytorch3d

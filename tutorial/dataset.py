@@ -2,6 +2,18 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 import numpy as np
+import scipy
+
+
+def readKinematics(path):
+    kinematics = scipy.io.loadmat(path)
+    result = []
+    for k in kinematics.keys():
+        if "value" in k:
+            result.append(kinematics[k][:,4::5])
+    result = np.concatenate(result, axis=0).astype(np.float32)
+    return result.T
+
 
 class UCLSegmentation(Dataset):
     def __init__(self, image_dir, mask_dir, transform=None):
