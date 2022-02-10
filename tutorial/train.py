@@ -8,7 +8,6 @@ import torch.optim as optim
 from model import UNET
 from utils import (load_checkpoint, save_checkpoint, get_loaders, check_accuracy, save_predictions_as_imgs)
 
-
 # Hyperparameters
 LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -51,15 +50,15 @@ def main():
     loss_fn = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    train_loader, val_loader = get_loaders(TRAIN_IMG_DIR,
-                                           TRAIN_MASK_DIR,
-                                           VAL_IMG_DIR,
-                                           VAL_MASK_DIR,
-                                           BATCH_SIZE,
-                                           train_transform,
-                                           val_transform,
-                                           NUM_WORKERS,
-                                           PIN_MEMORY)
+    train_loader, val_loader = get_loaders(train_dir=TRAIN_IMG_DIR,
+                                           train_maskdir=TRAIN_MASK_DIR,
+                                           val_dir=VAL_IMG_DIR,
+                                           val_maskdir=VAL_MASK_DIR,
+                                           batch_size=BATCH_SIZE,
+                                           train_transform=None,
+                                           val_transform=None,
+                                           num_workers=NUM_WORKERS,
+                                           pin_memory=PIN_MEMORY)
 
     scaler = torch.cuda.amp.GradScaler()
 
@@ -67,8 +66,14 @@ def main():
         train_fn(train_loader, model, optimizer, loss_fn, scaler)
 
         # save model
+        checkpoint = {"state_dict": model.state_dict(), "optimizer": optimizer.state_dict()}
+        save_checkpoint(checkpoint)
+
         # check accuracy
+        check_accuracy(val_loader, model, device=DEVICE)
+
         # print some examples to a folder
+        save_predictions_as_imgs(val_loader, model, folder='saved_images/', device=DEVICE)
 
 
 if __name__ == '__main__':
