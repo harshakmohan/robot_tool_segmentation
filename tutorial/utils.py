@@ -4,13 +4,16 @@ from torch.utils.data import DataLoader
 import numpy as np
 from dataset import UCLSegmentation
 
+
 def save_checkpoint(state, filename='my_checkpoint.pth.tar'):
     print('=> Saving checkpoint')
     torch.save(state, filename)
 
+
 def load_checkpoint(checkpoint, model):
     print('=> Loading checkpoint')
     model.load_state_dict(checkpoint['state_dict'])
+
 
 def check_accuracy(loader, model, device="cuda"):
     num_correct = 0
@@ -27,14 +30,15 @@ def check_accuracy(loader, model, device="cuda"):
             num_correct += (preds == y).sum()
             num_pixels += torch.numel(preds)
             dice_score += (2 * (preds * y).sum()) / (
-                (preds + y).sum() + 1e-8
+                    (preds + y).sum() + 1e-8
             )
 
     print(
-        f"Got {num_correct}/{num_pixels} with acc {num_correct/num_pixels*100:.2f}"
+        f"Got {num_correct}/{num_pixels} with acc {num_correct / num_pixels * 100:.2f}"
     )
-    print(f"Dice score: {dice_score/len(loader)}")
+    print(f"Dice score: {dice_score / len(loader)}")
     model.train()
+
 
 def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda"):
     model.eval()
@@ -50,16 +54,17 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
 
     model.train()
 
+
 def get_loaders(
-    train_dir,
-    train_maskdir,
-    val_dir,
-    val_maskdir,
-    batch_size,
-    train_transform,
-    val_transform,
-    num_workers=4,
-    pin_memory=True,
+        train_dir,
+        train_maskdir,
+        val_dir,
+        val_maskdir,
+        batch_size,
+        train_transform,
+        val_transform,
+        num_workers=4,
+        pin_memory=True,
 ):
     train_ds = UCLSegmentation(
         image_dir=train_dir,
@@ -90,4 +95,3 @@ def get_loaders(
     )
 
     return train_loader, val_loader
-
