@@ -7,6 +7,6 @@ vcs.xml
 .idea
 data
 tests
-tutorial/model_test.py
 model_test.py
-tutorial/data_test
+model_test.py
+data_test
