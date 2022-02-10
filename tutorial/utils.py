@@ -15,7 +15,7 @@ def load_checkpoint(checkpoint, model):
     model.load_state_dict(checkpoint['state_dict'])
 
 
-def check_accuracy(loader, model, device="cuda"):
+def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() else "cpu"):
     num_correct = 0
     num_pixels = 0
     dice_score = 0

@@ -18,10 +18,10 @@ IMAGE_HEIGHT = 538  # 1280 originally
 IMAGE_WIDTH = 701  # 1918 originally
 PIN_MEMORY = True
 LOAD_MODEL = False
-TRAIN_IMG_DIR = "data_test/train_images/"
-TRAIN_MASK_DIR = "data_test/train_masks/"
-VAL_IMG_DIR = "data_test/val_images/"
-VAL_MASK_DIR = "data_test/val_masks/"
+TRAIN_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_images/"
+TRAIN_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_masks/"
+VAL_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_images/"
+VAL_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_masks/"
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
