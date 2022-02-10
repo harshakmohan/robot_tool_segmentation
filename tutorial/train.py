@@ -14,7 +14,7 @@ LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 10
 NUM_EPOCHS = 3
-NUM_WORKERS = 2
+NUM_WORKERS = 2 # What does this do?
 IMAGE_HEIGHT = 538  # 1280 originally
 IMAGE_WIDTH = 701  # 1918 originally
 PIN_MEMORY = True
@@ -69,7 +69,7 @@ def main():
         # save model
         # check accuracy
         # print some examples to a folder
-        
+
 
 if __name__ == '__main__':
     main()
