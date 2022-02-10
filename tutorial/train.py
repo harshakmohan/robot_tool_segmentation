@@ -8,6 +8,7 @@ import torch.optim as optim
 from model import UNET
 from utils import (load_checkpoint, save_checkpoint, get_loaders, check_accuracy, save_predictions_as_imgs)
 from utils import DiceLoss2D
+import os
 
 # Hyperparameters
 LEARNING_RATE = 1e-4
@@ -19,10 +20,17 @@ IMAGE_HEIGHT = 538  # 1280 originally
 IMAGE_WIDTH = 701  # 1918 originally
 PIN_MEMORY = True
 LOAD_MODEL = False
-TRAIN_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_images/"
-TRAIN_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_masks/"
-VAL_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_images/"
-VAL_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_masks/"
+
+current_dir = os.path.abspath(os.getcwd())
+TRAIN_IMG_DIR = os.path.join(current_dir, 'data_test/train_images/')
+TRAIN_MASK_DIR = os.path.join(current_dir, 'data_test/train_masks/')
+VAL_IMG_DIR = os.path.join(current_dir, 'data_test/val_images/')
+VAL_MASK_DIR = os.path.join(current_dir, 'data_test/val_masks/')
+
+# TRAIN_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_images/"
+# TRAIN_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/train_masks/"
+# VAL_IMG_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_images/"
+# VAL_MASK_DIR = "/Users/harsha/PycharmProjects/robotic_surgery_tool_segmentation/data_test/val_masks/"
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)

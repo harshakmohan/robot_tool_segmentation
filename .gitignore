@@ -9,4 +9,4 @@ data
 tests
 tutorial/model_test.py
 model_test.py
-data_test
+tutorial/data_test
