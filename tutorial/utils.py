@@ -114,7 +114,6 @@ class DiceLoss2D(nn.Module):
 
     def __init__(self, skip_bg=False):
         super(DiceLoss2D, self).__init__()
-
         self.skip_bg = skip_bg
 
     def forward(self, inputs, target):

@@ -7,6 +7,7 @@ import torch.nn as nn
 import torch.optim as optim
 from model import UNET
 from utils import (load_checkpoint, save_checkpoint, get_loaders, check_accuracy, save_predictions_as_imgs)
+from utils import DiceLoss2D
 
 # Hyperparameters
 LEARNING_RATE = 1e-4
@@ -47,7 +48,8 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 def main():
 
     model = UNET(in_channels=3, out_channels=1).to(device=DEVICE)
-    loss_fn = nn.BCEWithLogitsLoss() # LOSS FUNCTION DEFINED HERE. Perhaps change it to dice score
+    #loss_fn = nn.BCEWithLogitsLoss() # LOSS FUNCTION DEFINED HERE. Perhaps change it to dice score
+    loss_fn = DiceLoss2D()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
     train_loader, val_loader = get_loaders(train_dir=TRAIN_IMG_DIR,
