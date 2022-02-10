@@ -17,7 +17,7 @@ import scipy
 # TODO: Modify this to read the data in the directory format provided by UCL
 # Take in a list of the Video_## folders that you want to use for training, validation, and testing.
 class UCLSegmentation(Dataset):
-    def __init__(self, image_dir, mask_dir, transform=None):
+    def __init__(self, image_dir, mask_dir, transform=None, train_list=None, val_list=None):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
         self.transform = transform
@@ -33,7 +33,7 @@ class UCLSegmentation(Dataset):
         image = np.array(Image.open(img_path).convert('RGB'))
         mask = np.array(Image.open(mask_path).convert('L'), dtype=np.float32)
 
-        mask[mask == 255.0] = 1.0
+        #mask[mask == 255.0] = 1.0
 
         # if self.transform is not None:
         #     augmentations = self.transform(image=image, mask=mask)

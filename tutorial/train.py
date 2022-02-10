@@ -1,6 +1,7 @@
 import torch
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+from torch import device
 from tqdm import tqdm
 import torch.nn as nn
 import torch.optim as optim
@@ -23,11 +24,52 @@ TRAIN_MASK_DIR = "data/train_masks/"
 VAL_IMG_DIR = "data/val_images/"
 VAL_MASK_DIR = "data/val_masks/"
 
-def train_fn():
-    pass
+def train_fn(loader, model, optimizer, loss_fn, scaler):
+    loop = tqdm(loader)
+
+    for batch_idx, (data, targets) in enumerate(loop):
+        data = data.to(device=DEVICE)
+        targets = targets.float().unsqueeze(1).to(device=DEVICE)
+
+        # forward
+        with torch.cuda.amp.autocast():
+            predictions = model(data)
+            loss = loss_fn(predictions, targets)
+
+        # backward
+        optimizer.zero_grad()
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
+
+        # update tqdm loop
+        loop.set_postfix(loss=loss.item())
 
 def main():
-    pass
+
+    model = UNET(in_channels=3, out_channels=1).to(device=DEVICE)
+    loss_fn = nn.BCEWithLogitsLoss()
+    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+
+    train_loader, val_loader = get_loaders(TRAIN_IMG_DIR,
+                                           TRAIN_MASK_DIR,
+                                           VAL_IMG_DIR,
+                                           VAL_MASK_DIR,
+                                           BATCH_SIZE,
+                                           train_transform,
+                                           val_transform,
+                                           NUM_WORKERS,
+                                           PIN_MEMORY)
+
+    scaler = torch.cuda.amp.GradScaler()
+
+    for epoch in range(NUM_EPOCHS):
+        train_fn(train_loader, model, optimizer, loss_fn, scaler)
+
+        # save model
+        # check accuracy
+        # print some examples to a folder
+        
 
 if __name__ == '__main__':
     main()
