@@ -109,24 +109,6 @@ from torch import nn
 log = logging.getLogger(__name__)
 
 
-class DiceLoss(nn.Module):
-    def __init__(self, weight=None, size_average=True):
-        super(DiceLoss, self).__init__()
-
-    def forward(self, inputs: torch.Tensor, targets: torch.Tensor, smooth=1e-4):
-        # comment out if your model contains a sigmoid or equivalent activation layer
-        inputs = torch.sigmoid(inputs)
-
-        # flatten label and prediction tensors
-        inputs = inputs.view(-1)
-        targets = targets.view(-1)
-
-        intersection = (inputs * targets).sum()
-        dice = (2.0 * intersection + smooth) / (inputs.sum() + targets.sum() + smooth)
-
-        return 1 - dice
-
-
 class DiceLoss2D(nn.Module):
     """Originally implemented by Cong Gao."""
 
@@ -171,3 +153,4 @@ class DiceLoss2D(nn.Module):
 
         # compute average over the batch
         return torch.mean(avg_dices)
+
