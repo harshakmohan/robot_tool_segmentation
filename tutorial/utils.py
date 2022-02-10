@@ -61,8 +61,8 @@ def get_loaders(
         val_dir,
         val_maskdir,
         batch_size,
-        train_transform,
-        val_transform,
+        train_transform=None,
+        val_transform=None,
         num_workers=4,
         pin_memory=True,
 ):
