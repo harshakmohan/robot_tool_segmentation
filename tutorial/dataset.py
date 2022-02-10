@@ -5,16 +5,17 @@ import numpy as np
 import scipy
 
 
-def readKinematics(path):
-    kinematics = scipy.io.loadmat(path)
-    result = []
-    for k in kinematics.keys():
-        if "value" in k:
-            result.append(kinematics[k][:,4::5])
-    result = np.concatenate(result, axis=0).astype(np.float32)
-    return result.T
+# def readKinematics(path):
+#     kinematics = scipy.io.loadmat(path)
+#     result = []
+#     for k in kinematics.keys():
+#         if "value" in k:
+#             result.append(kinematics[k][:,4::5])
+#     result = np.concatenate(result, axis=0).astype(np.float32)
+#     return result.T
 
-
+# TODO: Modify this to read the data in the directory format provided by UCL
+# Take in a list of the Video_## folders that you want to use for training, validation, and testing.
 class UCLSegmentation(Dataset):
     def __init__(self, image_dir, mask_dir, transform=None):
         self.image_dir = image_dir
@@ -34,10 +35,10 @@ class UCLSegmentation(Dataset):
 
         mask[mask == 255.0] = 1.0
 
-        if self.transform is not None:
-            augmentations = self.transform(image=image, mask=mask)
-            image = augmentations["image"]
-            mask = augmentations["mask"]
+        # if self.transform is not None:
+        #     augmentations = self.transform(image=image, mask=mask)
+        #     image = augmentations["image"]
+        #     mask = augmentations["mask"]
 
         return image, mask
 
