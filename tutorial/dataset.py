@@ -2,7 +2,9 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 import numpy as np
+import torch
 import scipy
+import torchvision.transforms.functional as TF
 
 
 # def readKinematics(path):
@@ -30,8 +32,15 @@ class UCLSegmentation(Dataset):
         img_path = os.path.join(self.image_dir, self.images[index])
         mask_path = os.path.join(self.mask_dir, self.images[index])
 
-        image = np.array(Image.open(img_path).convert('RGB'))
-        mask = np.array(Image.open(mask_path).convert('L'), dtype=np.float32)
+        #image = TF.pil_to_tensor(Image.open(img_path).convert('RGB'))
+        #mask = TF.pil_to_tensor(Image.open(mask_path).convert('L'))
+
+        image = torch.from_numpy(np.array(Image.open(img_path).convert('RGB'))/255.0).float()
+        image = torch.permute(image, (2, 0, 1))
+        mask = torch.from_numpy(np.array(Image.open(mask_path).convert('L'), dtype=np.float32)/255.0).float()
+
+        #print('image dim: ', image.size())
+        #print('mask dim: ', mask.size())
 
         #mask[mask == 255.0] = 1.0
 

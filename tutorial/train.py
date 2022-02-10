@@ -11,7 +11,7 @@ from utils import (load_checkpoint, save_checkpoint, get_loaders, check_accuracy
 # Hyperparameters
 LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 10
+BATCH_SIZE = 5
 NUM_EPOCHS = 3
 NUM_WORKERS = 2 # What does this do?
 IMAGE_HEIGHT = 538  # 1280 originally
@@ -47,7 +47,7 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 def main():
 
     model = UNET(in_channels=3, out_channels=1).to(device=DEVICE)
-    loss_fn = nn.BCEWithLogitsLoss()
+    loss_fn = nn.BCEWithLogitsLoss() # LOSS FUNCTION DEFINED HERE. Perhaps change it to dice score
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
     train_loader, val_loader = get_loaders(train_dir=TRAIN_IMG_DIR,
@@ -63,6 +63,7 @@ def main():
     scaler = torch.cuda.amp.GradScaler()
 
     for epoch in range(NUM_EPOCHS):
+        print(type(train_loader))
         train_fn(train_loader, model, optimizer, loss_fn, scaler)
 
         # save model

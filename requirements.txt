@@ -9,3 +9,4 @@ scipy
 argparse
 albumentations
 pytorch3d
+cuda-python
