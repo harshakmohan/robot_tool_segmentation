@@ -13,7 +13,7 @@ import os
 # Hyperparameters
 LEARNING_RATE = 1e-4
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-BATCH_SIZE = 5
+BATCH_SIZE = 4
 NUM_EPOCHS = 3
 NUM_WORKERS = 2 # What does this do?
 IMAGE_HEIGHT = 538  # 1280 originally
@@ -44,6 +44,8 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
         with torch.cuda.amp.autocast():
             predictions = model(data)
             loss = loss_fn(predictions, targets)
+            print('loss = ', loss)
+            print("loss.item() = ", loss.item())
 
         # backward
         optimizer.zero_grad()

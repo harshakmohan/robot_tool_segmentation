@@ -52,7 +52,7 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
             preds = torch.sigmoid(model(x))
             preds = (preds > 0.5).float()
         torchvision.utils.save_image(
-            preds, f"{folder}/pred_{idx}.png"
+            preds, f"{folder}pred_{idx}.png"
         )
         torchvision.utils.save_image(y.unsqueeze(1), f"{folder}{idx}.png")
 
