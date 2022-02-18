@@ -52,10 +52,10 @@ class UCLSegmentation(Dataset):
         return image, mask
 
 class UCLSegmentationAll(Dataset):
-    def __init__(self, image_dir, mask_dir, transform=None, train_list=None, val_list=None):
+    def __init__(self, image_dir, mask_dir, train_list=None, val_list=None):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
-        self.transform = transform
+
         self.images = os.listdir(image_dir)
 
     def __len__(self):

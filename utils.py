@@ -66,15 +66,12 @@ def get_loaders(
         val_dir,
         val_maskdir,
         batch_size,
-        train_transform=None,
-        val_transform=None,
         num_workers=4,
         pin_memory=True,
 ):
     train_ds = UCLSegmentation(
         image_dir=train_dir,
         mask_dir=train_maskdir,
-        transform=train_transform,
     )
 
     train_loader = DataLoader(
@@ -88,7 +85,6 @@ def get_loaders(
     val_ds = UCLSegmentation(
         image_dir=val_dir,
         mask_dir=val_maskdir,
-        transform=val_transform,
     )
 
     val_loader = DataLoader(
