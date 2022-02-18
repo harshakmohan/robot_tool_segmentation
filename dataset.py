@@ -57,7 +57,7 @@ class UCLSegmentationAll(Dataset):
         self.video_paths = [os.path.join(folder_path, p) for p in video_paths] # List of paths to the Video_## folders
 
         self.image_paths = []
-        self.gt_paths = []
+        self.mask_paths = []
 
         for p in self.video_paths:
 
@@ -69,20 +69,19 @@ class UCLSegmentationAll(Dataset):
                 else:
                     name = str(i) + ".png"
                 self.image_paths.append(os.path.join(os.path.join(p, 'images'), name))
-                self.gt_paths.append(os.path.join(os.path.join(p, 'images'), name))
+                self.mask_paths.append(os.path.join(os.path.join(p, 'images'), name))
 
 
     def __len__(self):
         return len(self.image_paths)
 
 
-    def __getitem__(self, index):
-        img_path = os.path.join(self.image_dir, self.images[index])
-        mask_path = os.path.join(self.mask_dir, self.images[index])
+    def __getitem__(self, index: int):
 
-        image = torch.from_numpy(np.array(Image.open(img_path).convert('RGB'))/255.0).float()
+        image = torch.from_numpy(np.array(Image.open(self.image_paths[index]).convert('RGB')) / 255.0).float()
         image = torch.permute(image, (2, 0, 1))
-        mask = torch.from_numpy(np.array(Image.open(mask_path).convert('L'), dtype=np.float32)/255.0).float()
+
+        mask = torch.from_numpy(np.array(Image.open(self.mask_paths[index]).convert('L'), dtype=np.float32) / 255.0).float()
 
         return image, mask
 
