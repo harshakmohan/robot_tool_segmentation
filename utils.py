@@ -6,17 +6,18 @@ from dataset import UCLSegmentation
 
 import logging
 from torch import nn
+
 log = logging.getLogger(__name__)
 
 
-def save_checkpoint(state, filename='my_checkpoint.pth.tar'):
+def save_checkpoint(state, filename='checkpoints/my_checkpoint.pth.tar'):
     print('=> Saving checkpoint')
-    torch.save(state, filename)
+    #torch.save(state, filename)
 
 
 def load_checkpoint(checkpoint, model):
     print('=> Loading checkpoint')
-    model.load_state_dict(checkpoint['state_dict'])
+    #model.load_state_dict(checkpoint['state_dict'])
 
 
 def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() else "cpu"):
@@ -99,14 +100,6 @@ def get_loaders(
     )
 
     return train_loader, val_loader
-
-
-import logging
-
-import torch
-from torch import nn
-
-log = logging.getLogger(__name__)
 
 
 class DiceLoss2D(nn.Module):

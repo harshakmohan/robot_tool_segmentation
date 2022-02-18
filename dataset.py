@@ -19,7 +19,7 @@ import torchvision.transforms.functional as TF
 # TODO: Modify this to read the data in the directory format provided by UCL
 # Take in a list of the Video_## folders that you want to use for training, validation, and testing.
 class UCLSegmentation(Dataset):
-    def __init__(self, image_dir, mask_dir, transform=None, train_list=None, val_list=None):
+    def __init__(self, image_dir, mask_dir, transform=None):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
         self.transform = transform
@@ -51,4 +51,23 @@ class UCLSegmentation(Dataset):
 
         return image, mask
 
+class UCLSegmentationAll(Dataset):
+    def __init__(self, image_dir, mask_dir, transform=None, train_list=None, val_list=None):
+        self.image_dir = image_dir
+        self.mask_dir = mask_dir
+        self.transform = transform
+        self.images = os.listdir(image_dir)
+
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, index):
+        img_path = os.path.join(self.image_dir, self.images[index])
+        mask_path = os.path.join(self.mask_dir, self.images[index])
+
+        image = torch.from_numpy(np.array(Image.open(img_path).convert('RGB'))/255.0).float()
+        image = torch.permute(image, (2, 0, 1))
+        mask = torch.from_numpy(np.array(Image.open(mask_path).convert('L'), dtype=np.float32)/255.0).float()
+
+        return image, mask
 
