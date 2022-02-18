@@ -23,10 +23,14 @@ LOAD_MODEL = False
 
 current_dir = os.path.abspath(os.getcwd())
 print('current_dir', current_dir)
+
 TRAIN_IMG_DIR = os.path.join(current_dir, 'data_test/train_images/')
 TRAIN_MASK_DIR = os.path.join(current_dir, 'data_test/train_masks/')
 VAL_IMG_DIR = os.path.join(current_dir, 'data_test/val_images/')
 VAL_MASK_DIR = os.path.join(current_dir, 'data_test/val_masks/')
+
+# New Path for entire UCL dataset
+
 
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):

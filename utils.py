@@ -2,7 +2,7 @@ import torch
 import torchvision
 from torch.utils.data import DataLoader
 import numpy as np
-from dataset import UCLSegmentation
+from dataset import UCLSegmentation, UCLSegmentationAll
 
 import logging
 from torch import nn
@@ -69,7 +69,7 @@ def get_loaders(
         num_workers=4,
         pin_memory=True,
 ):
-    train_ds = UCLSegmentation(
+    train_ds = UCLSegmentationAll(
         image_dir=train_dir,
         mask_dir=train_maskdir,
     )

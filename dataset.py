@@ -52,14 +52,29 @@ class UCLSegmentation(Dataset):
         return image, mask
 
 class UCLSegmentationAll(Dataset):
-    def __init__(self, image_dir, mask_dir, train_list=None, val_list=None):
-        self.image_dir = image_dir
-        self.mask_dir = mask_dir
+    def __init__(self, folder_path, video_paths = ['Video_01', 'Video_02', 'Video_03'], train_list=['01', '02', '03'], val_list=['04']):
+        self.folder_path = folder_path
+        self.video_paths = [os.path.join(folder_path, p) for p in video_paths] # List of paths to the Video_## folders
 
-        self.images = os.listdir(image_dir)
+        self.image_paths = []
+        self.gt_paths = []
+
+        for p in self.video_paths:
+
+            for i in range(300):
+                if i < 10:
+                    name = "00" + str(i) + ".png"
+                elif i < 100:
+                    name = "0" + str(i) + ".png"
+                else:
+                    name = str(i) + ".png"
+                self.image_paths.append(os.path.join(os.path.join(p, 'images'), name))
+                self.gt_paths.append(os.path.join(os.path.join(p, 'images'), name))
+
 
     def __len__(self):
         return len(self.images)
+
 
     def __getitem__(self, index):
         img_path = os.path.join(self.image_dir, self.images[index])
