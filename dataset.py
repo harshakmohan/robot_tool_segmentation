@@ -73,7 +73,7 @@ class UCLSegmentationAll(Dataset):
 
 
     def __len__(self):
-        return len(self.images)
+        return len(self.image_paths)
 
 
     def __getitem__(self, index):
