@@ -46,6 +46,7 @@ def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() els
 
 
 def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda"):
+    # TODO: When saving prediction, save with Video_## and image ## in the name of the prediction image file.
     model.eval()
     for idx, (x, y) in enumerate(loader):
         x = x.to(device=device)
@@ -59,18 +60,19 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
 
     model.train()
 
-
+# TODO: Overhaul this. I don't like it. Use command line args instead.
 def get_loaders(
         train_dir,
         train_maskdir,
         val_dir,
         val_maskdir,
         batch_size,
-        num_workers=4,
+        num_workers=2,
         pin_memory=True,
 ):
     train_ds = UCLSegmentationAll(
-        image_dir=train_dir,
+        folder_path=train_dir,
+        video_paths=['01', '02', '03'],
         mask_dir=train_maskdir,
     )
 

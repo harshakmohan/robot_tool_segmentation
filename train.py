@@ -68,8 +68,6 @@ def main():
                                            val_dir=VAL_IMG_DIR,
                                            val_maskdir=VAL_MASK_DIR,
                                            batch_size=BATCH_SIZE,
-                                           train_transform=None,
-                                           val_transform=None,
                                            num_workers=NUM_WORKERS,
                                            pin_memory=PIN_MEMORY)
 
