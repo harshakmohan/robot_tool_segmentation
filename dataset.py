@@ -59,6 +59,7 @@ class UCLSegmentationAll(Dataset):
         self.image_paths = []
         self.mask_paths = []
 
+
         for p in self.video_paths:
 
             for i in range(300):
