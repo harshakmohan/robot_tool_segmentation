@@ -52,6 +52,9 @@ class UCLSegmentation(Dataset):
         return image, mask
 
 class UCLSegmentationAll(Dataset):
+    '''
+    Goes through entire UCL dataset and loads the images for training/validation.
+    '''
     def __init__(self, folder_path, video_paths = ['01', '02', '03']):
         self.folder_path = folder_path
         self.video_paths = [os.path.join(folder_path, p) for p in video_paths] # List of paths to the Video_## folders
