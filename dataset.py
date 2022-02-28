@@ -74,7 +74,7 @@ class UCLSegmentationAll(Dataset):
                     name = str(i) + ".png"
                 self.image_paths.append(os.path.join(os.path.join(p, 'images'), name))
                 self.mask_paths.append(os.path.join(os.path.join(p, 'ground_truth'), name))
-
+        print('Number of Loaded Images: ', len(self.image_paths))
 
     def __len__(self):
         return len(self.image_paths)

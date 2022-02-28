@@ -39,7 +39,7 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
             predictions = model(data)
             loss = loss_fn(predictions, targets)
             print('loss = ', loss)
-            print("loss.item() = ", loss.item())
+            print("loss = ", loss.item())
 
         # backward
         optimizer.zero_grad()
@@ -75,7 +75,7 @@ def main():
         check_accuracy(val_loader, model, device=DEVICE)
 
         # print some examples to a folder
-        save_predictions_as_imgs(val_loader, model, folder='saved_images/', device=DEVICE)
+        save_predictions_as_imgs(val_loader, model, folder='predictions/', device=DEVICE)
 
 
 if __name__ == '__main__':
