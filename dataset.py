@@ -55,7 +55,7 @@ class UCLSegmentationAll(Dataset):
     '''
     Goes through entire UCL dataset and loads the images for training/validation.
     '''
-    def __init__(self, folder_path, video_paths = ['01', '02', '03']):
+    def __init__(self, folder_path, video_paths=['Video_01', 'Video_02', 'Video_03']):
         self.folder_path = folder_path
         self.video_paths = [os.path.join(folder_path, p) for p in video_paths] # List of paths to the Video_## folders
 
@@ -73,7 +73,7 @@ class UCLSegmentationAll(Dataset):
                 else:
                     name = str(i) + ".png"
                 self.image_paths.append(os.path.join(os.path.join(p, 'images'), name))
-                self.mask_paths.append(os.path.join(os.path.join(p, 'images'), name))
+                self.mask_paths.append(os.path.join(os.path.join(p, 'ground_truth'), name))
 
 
     def __len__(self):

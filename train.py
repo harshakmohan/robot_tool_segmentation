@@ -30,7 +30,8 @@ LOAD_MODEL = False
 
 # New Path for entire UCL dataset
 current_dir = os.path.abspath(os.getcwd())
-print('current_dir:', current_dir)
+top_data_dir = os.path.join(current_dir, 'data')
+print('top_data_dir:', top_data_dir)
 
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
@@ -63,10 +64,7 @@ def main():
     loss_fn = DiceLoss2D()
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    train_loader, val_loader = get_loaders(train_dir=TRAIN_IMG_DIR,
-                                           train_maskdir=TRAIN_MASK_DIR,
-                                           val_dir=VAL_IMG_DIR,
-                                           val_maskdir=VAL_MASK_DIR,
+    train_loader, val_loader = get_loaders(data_dir = top_data_dir,
                                            batch_size=BATCH_SIZE,
                                            num_workers=NUM_WORKERS,
                                            pin_memory=PIN_MEMORY)

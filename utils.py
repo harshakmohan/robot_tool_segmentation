@@ -61,41 +61,15 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
     model.train()
 
 # TODO: Overhaul this. I don't like it. Use command line args instead.
-def get_loaders(
-        train_dir,
-        train_maskdir,
-        val_dir,
-        val_maskdir,
-        batch_size,
-        num_workers=2,
-        pin_memory=True,
-):
-    train_ds = UCLSegmentationAll(
-        folder_path=train_dir,
-        video_paths=['01', '02', '03'],
-        mask_dir=train_maskdir,
-    )
+def get_loaders(data_dir, batch_size, num_workers=2, pin_memory=True, shuffle=False):
 
-    train_loader = DataLoader(
-        train_ds,
-        batch_size=batch_size,
-        num_workers=num_workers,
-        pin_memory=pin_memory,
-        shuffle=True,
-    )
+    train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03'])
 
-    val_ds = UCLSegmentation(
-        image_dir=val_dir,
-        mask_dir=val_maskdir,
-    )
+    train_loader = DataLoader(train_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=True)
 
-    val_loader = DataLoader(
-        val_ds,
-        batch_size=batch_size,
-        num_workers=num_workers,
-        pin_memory=pin_memory,
-        shuffle=False,
-    )
+    val_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03'])
+
+    val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=False)
 
     return train_loader, val_loader
 
