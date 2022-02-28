@@ -45,7 +45,7 @@ def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() els
     model.train()
 
 
-def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda"):
+def save_predictions_as_imgs(loader, model, folder="predictions/", device="cuda"):
     # TODO: When saving prediction, save with Video_## and image ## in the name of the prediction image file.
     model.eval()
     for idx, (x, y) in enumerate(loader):
