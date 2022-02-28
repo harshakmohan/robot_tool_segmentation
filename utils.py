@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 def save_checkpoint(state, filename='checkpoints/my_checkpoint.pth.tar'):
     print('=> Saving checkpoint')
-    #torch.save(state, filename)
+    torch.save(state, filename)
 
 
 def load_checkpoint(checkpoint, model):
@@ -45,7 +45,7 @@ def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() els
     model.train()
 
 
-def save_predictions_as_imgs(loader, model, folder="predictions/", device="cuda"):
+def save_predictions_as_imgs(loader, model, device, folder="predictions/"):
     # TODO: When saving prediction, save with Video_## and image ## in the name of the prediction image file.
     model.eval()
     for idx, (x, y) in enumerate(loader):
@@ -67,7 +67,7 @@ def get_loaders(data_dir, batch_size, num_workers=2, pin_memory=True, shuffle=Fa
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=True)
 
-    val_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03'])
+    val_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_10', 'Video_11'])
 
     val_loader = DataLoader(val_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=False)
 

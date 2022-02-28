@@ -27,7 +27,7 @@ top_data_dir = os.path.join(current_dir, 'data')
 print('top_data_dir:', top_data_dir)
 
 
-def train_fn(loader, model, optimizer, loss_fn, scaler):
+def train_fn(loader, model, optimizer, loss_fn):
     loop = tqdm(loader)
 
     for batch_idx, (data, targets) in enumerate(loop):
@@ -38,14 +38,15 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
         with torch.cuda.amp.autocast():
             predictions = model(data)
             loss = loss_fn(predictions, targets)
-            print('loss = ', loss)
             print("loss = ", loss.item())
 
         # backward
         optimizer.zero_grad()
-        scaler.scale(loss).backward()
-        scaler.step(optimizer)
-        scaler.update()
+        loss.backward()
+        optimizer.step()
+        #scaler.scale(loss).backward()
+        #scaler.step(optimizer)
+        #scaler.update()
 
         # update tqdm loop
         loop.set_postfix(loss=loss.item())
@@ -61,11 +62,9 @@ def main():
                                            num_workers=NUM_WORKERS,
                                            pin_memory=PIN_MEMORY)
 
-    scaler = torch.cuda.amp.GradScaler()
-
     for epoch in range(NUM_EPOCHS):
         print(type(train_loader))
-        train_fn(train_loader, model, optimizer, loss_fn, scaler)
+        train_fn(train_loader, model, optimizer, loss_fn)
 
         # save model
         checkpoint = {"state_dict": model.state_dict(), "optimizer": optimizer.state_dict()}
