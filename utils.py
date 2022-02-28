@@ -60,7 +60,7 @@ def save_predictions_as_imgs(loader, model, folder="saved_images/", device="cuda
 
     model.train()
 
-# TODO: Overhaul this. I don't like it. Use command line args instead.
+# TODO: Overhaul this. Use command line args instead.
 def get_loaders(data_dir, batch_size, num_workers=2, pin_memory=True, shuffle=False):
 
     train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03'])

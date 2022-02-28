@@ -21,13 +21,6 @@ IMAGE_WIDTH = 701  # 1918 originally
 PIN_MEMORY = True
 LOAD_MODEL = False
 
-
-
-# TRAIN_IMG_DIR = os.path.join(current_dir, 'data_test/train_images/')
-# TRAIN_MASK_DIR = os.path.join(current_dir, 'data_test/train_masks/')
-# VAL_IMG_DIR = os.path.join(current_dir, 'data_test/val_images/')
-# VAL_MASK_DIR = os.path.join(current_dir, 'data_test/val_masks/')
-
 # New Path for entire UCL dataset
 current_dir = os.path.abspath(os.getcwd())
 top_data_dir = os.path.join(current_dir, 'data')
@@ -60,11 +53,10 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
 def main():
 
     model = UNET(in_channels=3, out_channels=1).to(device=DEVICE)
-    #loss_fn = nn.BCEWithLogitsLoss() # LOSS FUNCTION DEFINED HERE. Perhaps change it to dice score
-    loss_fn = DiceLoss2D()
+    loss_fn = DiceLoss2D() # 2D Dice Loss
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
-    train_loader, val_loader = get_loaders(data_dir = top_data_dir,
+    train_loader, val_loader = get_loaders(data_dir=top_data_dir,
                                            batch_size=BATCH_SIZE,
                                            num_workers=NUM_WORKERS,
                                            pin_memory=PIN_MEMORY)
