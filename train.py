@@ -11,13 +11,13 @@ from utils import DiceLoss2D
 import os
 
 # Hyperparameters
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-3
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 4
-NUM_EPOCHS = 3
+NUM_EPOCHS = 6
 NUM_WORKERS = 2
-IMAGE_HEIGHT = 538  # 1280 originally
-IMAGE_WIDTH = 701  # 1918 originally
+IMAGE_HEIGHT = 538
+IMAGE_WIDTH = 701
 PIN_MEMORY = True
 LOAD_MODEL = False
 
@@ -36,7 +36,7 @@ def train_fn(loader, model, optimizer, loss_fn):
 
         # forward
         with torch.cuda.amp.autocast():
-            predictions = model(data)
+            predictions = torch.sigmoid(model(data))
             loss = loss_fn(predictions, targets)
             print("loss = ", loss.item())
 
@@ -44,9 +44,6 @@ def train_fn(loader, model, optimizer, loss_fn):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        #scaler.scale(loss).backward()
-        #scaler.step(optimizer)
-        #scaler.update()
 
         # update tqdm loop
         loop.set_postfix(loss=loss.item())
@@ -71,10 +68,10 @@ def main():
         save_checkpoint(checkpoint)
 
         # check accuracy
-        check_accuracy(val_loader, model, device=DEVICE)
+        check_accuracy(train_loader, model, device=DEVICE)
 
         # print some examples to a folder
-        save_predictions_as_imgs(val_loader, model, folder='predictions/', device=DEVICE)
+        save_predictions_as_imgs(train_loader, model, folder='predictions/', device=DEVICE)
 
 
 if __name__ == '__main__':

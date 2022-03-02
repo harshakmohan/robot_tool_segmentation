@@ -17,7 +17,7 @@ def save_checkpoint(state, filename='checkpoints/my_checkpoint.pth.tar'):
 
 def load_checkpoint(checkpoint, model):
     print('=> Loading checkpoint')
-    #model.load_state_dict(checkpoint['state_dict'])
+    model.load_state_dict(checkpoint['state_dict'])
 
 
 def check_accuracy(loader, model, device="cuda" if torch.cuda.is_available() else "cpu"):
@@ -63,7 +63,7 @@ def save_predictions_as_imgs(loader, model, device, folder="predictions/"):
 # TODO: Overhaul this. Use command line args instead.
 def get_loaders(data_dir, batch_size, num_workers=2, pin_memory=True, shuffle=False):
 
-    train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03'])
+    train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03', 'Video_04', 'Video_05', 'Video_06'])
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=True)
 
