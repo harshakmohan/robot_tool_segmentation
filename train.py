@@ -11,7 +11,7 @@ from utils import DiceLoss2D
 import os
 
 # Hyperparameters
-LEARNING_RATE = 1e-3
+LEARNING_RATE = 0.001
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 4
 NUM_EPOCHS = 6
