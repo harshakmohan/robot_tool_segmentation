@@ -64,7 +64,7 @@ def save_predictions_as_imgs(loader, model, device, folder="predictions/"):
 # TODO: Add an argument to indicate which videos to use for training vs validation.
 def get_loaders(data_dir, batch_size, num_workers=2, pin_memory=True, shuffle=False):
 
-    train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03', 'Video_04', 'Video_05', 'Video_06', 'Video_07', 'Video_08', 'Video_09', 'Video_10'])
+    train_ds = UCLSegmentationAll(folder_path=data_dir, video_paths=['Video_01', 'Video_02', 'Video_03', 'Video_04', 'Video_05', 'Video_06'])
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, num_workers=num_workers, pin_memory=pin_memory, shuffle=True)
 

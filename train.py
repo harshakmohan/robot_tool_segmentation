@@ -11,11 +11,11 @@ from utils import DiceLoss2D
 import os
 
 # Hyperparameters
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.003
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 4
-NUM_EPOCHS = 6
-NUM_WORKERS = 2
+NUM_EPOCHS = 4
+NUM_WORKERS = 1
 IMAGE_HEIGHT = 538
 IMAGE_WIDTH = 701
 PIN_MEMORY = True
@@ -36,7 +36,8 @@ def train_fn(loader, model, optimizer, loss_fn):
 
         # forward
         with torch.cuda.amp.autocast():
-            predictions = torch.sigmoid(model(data))
+            predictions = model(data)
+            # predictions = torch.sigmoid(model(data))
             loss = loss_fn(predictions, targets)
             print("loss = ", loss.item())
 
@@ -51,7 +52,8 @@ def train_fn(loader, model, optimizer, loss_fn):
 def main():
 
     model = UNET(in_channels=3, out_channels=1).to(device=DEVICE)
-    loss_fn = DiceLoss2D() # 2D Dice Loss
+    #loss_fn = DiceLoss2D() # 2D Dice Loss
+    loss_fn = torch.nn.BCEWithLogitsLoss() # BCE Loss
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
     train_loader, val_loader = get_loaders(data_dir=top_data_dir,
